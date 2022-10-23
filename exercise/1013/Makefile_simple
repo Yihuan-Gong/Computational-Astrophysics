@@ -1,0 +1,13 @@
+F90=gfortran
+F90FLAGS= -O2 -fdefault-real-8 -fdefault-integer-8
+
+nonlinear: solver.o nonlinear.o
+	$(F90) $(F90FLAGS) solver.o nonlinear.o -o nonlinear
+
+nonlinear.o: nonlinear.f90
+	$(F90) $(F90FLAGS) -c nonlinear.f90 -o nonlinear.o
+
+solver.o: solver.f90
+	$(F90) $(F90FLAGS) -c solver.f90
+
+
