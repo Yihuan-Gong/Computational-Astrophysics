@@ -42,7 +42,7 @@ module Solver
         call func(n, t+h, y2, k2)
 
         ! compute ynext 
-        ynext = 
+        ynext = yin + h/2. * (k1+k2)
 
     end subroutine rk2
 
