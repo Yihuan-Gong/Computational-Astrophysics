@@ -22,7 +22,7 @@ module IO
                 if(cycstr(i:i).eq.' ') cycstr(i:i)='0'
             enddo
 
-            filename = 'Lax-Wendroff/advection_'//cycstr
+            filename = 'arithmetic/advection_'//cycstr
             open(100,file=filename,status='unknown')
 
             ! write header

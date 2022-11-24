@@ -60,9 +60,9 @@ subroutine flux(i, dt, FL, FR)
     real, intent(in)  :: dt
     real, intent(out) :: FL, FR
 
-    ! ! Arithmetic average method
-    ! FL = 0.5*(c*u(i-1) + c*u(i))
-    ! FR = 0.5*(c*u(i+1) + c*u(i))
+    ! Arithmetic average method
+    FL = 0.5*(c*u(i-1) + c*u(i))
+    FR = 0.5*(c*u(i+1) + c*u(i))
 
     ! ! The Lax-Friedrich method
     ! FL = 0.5*(c*u(i-1) + c*u(i)) - dx/(2.*dt)*(u(i)-u(i-1))
@@ -72,9 +72,9 @@ subroutine flux(i, dt, FL, FR)
     ! FL = c*u(i-1)
     ! FR = c*u(i)
 
-    ! Lax-Wendroff method
-    FL = c*(0.5*(u(i) + u(i-1)) - dt/(2*dx)*(c*u(i)-c*u(i-1)))
-    FR = c*(0.5*(u(i+1) + u(i)) - dt/(2*dx)*(c*u(i+1)-c*u(i)))
+    ! ! Lax-Wendroff method
+    ! FL = c*(0.5*(u(i) + u(i-1)) - dt/(2*dx)*(c*u(i)-c*u(i-1)))
+    ! FR = c*(0.5*(u(i+1) + u(i)) - dt/(2*dx)*(c*u(i+1)-c*u(i)))
 
     
 end subroutine flux
