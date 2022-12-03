@@ -42,10 +42,9 @@ subroutine update(time, dt)
     real    :: FL, FR ! FL: left  FR: right
     real    :: FT, FB ! FT: top   FB: bottom
 
-    ! 1st order in time
-    uold  = u
 
     ! Do x direction first
+    uold  = u             ! copy the solution to uold array
     call boundary_xdir(u) ! update BC in x
 
     do j = istart, iend
@@ -56,6 +55,7 @@ subroutine update(time, dt)
     end do
 
     ! Then repeat for y direction
+    uold  = u             ! copy the solution to uold array
     call boundary_ydir(u) ! update BC in x
 
     do j = istart, iend
