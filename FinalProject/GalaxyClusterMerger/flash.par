@@ -1,0 +1,217 @@
+# Parameter file for ClusterSloshingRigid Simulation
+
+# Parameters of the problem.
+
+# In what follows, "1" is the main, stationary cluster
+# and "2" is the DM-only perturber
+   
+# The two files containing the radial profiles
+profile1 		       = "perseus_main.h5"
+profile2                       = "perseus_sub.h5"
+
+# The file containing the 3D magnetic vector potential
+magFile                        = "perseus_magnetic_field.h5" 
+
+# The initial positions (in kpc) in the x-direction
+xInit1                 = 0.0
+xInit2                 = 2958.0398915498081
+
+# The initial positions	 (in kpc) in the y-direction
+yInit1                 = 0.0
+yInit2                 = 500.0
+
+# d = sqrt(dx^2+dy^2) = 3 Mpc
+
+# The initial velocities (in km/s) in the x-direction
+vxInit1                        = 0.0
+vxInit2 		       = -1466.395888021819
+
+# The initial velocities (in km/s) in the y-direction
+vyInit1                        = 0.0
+vyInit2                        = 0.0
+
+# Switch this to true to test a single cluster, you don't have
+# to change anything else
+testSingleCluster              = .false.
+
+# Always keep this on to keep the main cluster in the center
+# and stay in its rest frame
+mainClusterFixed	       = .true.
+
+# Cluster 1 is gas-filled, cluster 2 is gasless
+isGas1                         = .true.
+isGas2			       = .false.
+
+# This is a sub-sampling parameter within a zone used in
+# Simulation_initBlock (shouldn't have to change)
+nsubzones                      = 3
+
+# Always keep this false, it's for starting the simulation
+# with a velocity profile  
+readVelocity		       = .false.
+
+# These parameters control the scale of the inertial frame
+# correction (see Roediger & ZuHone 2012), should be fine as-is 
+Ldamp 			       = 300.0
+Rdamp			       = 800.0
+
+# I/O
+
+basenm                         = "perseus_merger_"
+
+#restart  = .false.
+restart                        = .true.
+
+checkpointFileNumber	       = 4
+plotFileNumber		       = 180
+
+checkpointFileIntervalTime     = 3.1557E19
+plotFileIntervalTime           = 3.1557e14
+particleFileIntervalTime       = 3.1557e14
+
+wall_clock_checkpoint          = 8500.
+
+plot_var_1                     = "dens"
+plot_var_2                     = "temp"
+plot_var_3                     = "pres"
+plot_var_4                     = "gpot"
+plot_var_5                     = "velx"
+plot_var_6                     = "vely"
+plot_var_7                     = "velz"
+plot_var_8                     = "magx"
+plot_var_9                     = "magy"
+plot_var_10                    = "magz"
+
+run_comment                    = "Perseus Merger"
+log_file                       = "perseus_merger.log"
+
+# Driver
+
+dtinit                         = 3.1557E09
+dtmax                          = 3.1557E16
+dtmin                          = 3.1557E08
+nend                           = 10000000
+tmax			       = 1.57785e+17
+
+# Grid
+
+geometry                       = "cartesian"
+
+xmax                           = 1.23424e+25
+xmin                           = -1.23424e+25
+ymax                           = 1.23424e+25
+ymin                           = -1.23424e+25
+zmax                           = 1.23424e+25
+zmin                           = -1.23424e+25
+
+xl_boundary_type               = "diode"
+xr_boundary_type               = "diode"
+yl_boundary_type               = "diode"
+yr_boundary_type               = "diode"
+zl_boundary_type               = "diode"
+zr_boundary_type               = "diode"
+
+nblockx                        = 8
+nblocky                        = 8
+nblockz                        = 8
+
+lrefine_max                    = 6
+lrefine_min                    = 1
+
+refine_var_1                   = "dens"
+refine_var_2                   = "temp"
+refine_var_3                   = "none"
+refine_var_4		       = "none"
+
+# This ensures we refine on a sphere with a radius
+# of 150 kpc from the center of the main cluster
+# at all times in addition to 2nd-deriv refinement
+refineOnSpheres = .true.
+RefiningRadius1 = 150.0
+RefiningRadius2 = 0.0
+refineOnMass = .false.
+
+# Hydrodynamics
+
+cfl                            = 0.4
+convertToConsvdInMeshInterp    = .TRUE.
+
+# This parameter shuts off 2nd-derivative
+# refinement below this density
+refinementDensityCutoff        = 1.0e-27
+
+eintSwitch                     = 1.0e-4
+
+smalle                         = 2.0e9
+smallp                         = 1.E-25
+smallt                         = 1.E4
+smallu                         = 1.E-15
+smallx                         = 1.E-15
+smlrho                         = 1.E-35
+
+# Gravity
+
+useGravity                     = .TRUE.
+grav_boundary_type             = "isolated"
+mpole_lmax                     = 6
+mpole_subSample		       = 1
+mg_printNorm                   = .false.
+
+useParticles = .false.
+useActiveParticles = .false.
+pt_maxPerProc = 1000000
+pt_numParticlesWanted = 1000000
+
+# Diffuse
+
+useDiffuse = .false.
+useDiffuseTherm = .false.
+useDiffuseVisc = .false.
+useDiffuseSpecies = .false.
+useViscosity = .false.
+useConductivity = .false.
+ 
+#	DivB control switch
+killdivb	= .true.
+
+#	Flux Conservation for AMR
+flux_correct    = .true.
+
+## -------------------------------------------------------------##
+##  SWITCHES SPECIFIC TO THE UNSPLIT STAGGERED MESH MHD SOLVER  ##
+#       I. INTERPOLATION SCHEME:
+order           = 3      # Interpolation order (First/Second/Third order)
+slopeLimiter    = "mc"   # Slope limiters (minmod, mc, vanLeer, hybrid, limited)
+LimitedSlopeBeta= 1.     # Slope parameter for the "limited" slope by Toro
+charLimiting    = .true. # Characteristic limiting vs. Primitive limiting
+use_steepening  = .true. # Contact steepening for PPM
+
+#       II. MAGNETIC(B) AND ELECTRIC(E) FIELDS:
+E_modification  = .true.            # High order algorithm for E-field construction
+E_upwind = .true.
+energyFix       = .true.           # Update magnetic energy using staggered B-fields
+ForceHydroLimit = .false.           # Pure Hydro Limit (B=0)
+prolMethod      = "balsara_prol"    # Prolongation method (injecton_prol, balsara_prol)
+
+#       III. RIEMANN SOLVERS:
+RiemannSolver   = "hlld"       # Roe, HLL, HLLC, HLLD, LF
+shockInstabilityFix = .false.  # Carbuncle instability fix for the Roe solver
+entropy         = .false.      # Entropy fix for the Roe solver
+EOSforRiemann   = .false.      # Call EoS during Riemann solves
+
+#       IV. STRONG SHOCK HANDELING SCHEME:
+shockDetect     = .true.     # Shock Detect for numerical stability
+## -------------------------------------------------------------##
+
+gamma              = 1.666666666667
+eos_singleSpeciesA = 0.61
+eos_singleSpeciesZ = 1.111358574610245
+eintSwitch         = 1.0e-4
+
+use_gravPotUpdate = .false.
+use_gravHalfUpdate = .true.
+
+# This parameter rescales the magnetic energy 
+# from what is in the file. Set = 1 for keeping
+# the energy the way it is
+rescaleMagEnergy = 1.0

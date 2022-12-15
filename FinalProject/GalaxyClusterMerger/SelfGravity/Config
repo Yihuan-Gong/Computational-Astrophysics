@@ -1,0 +1,13 @@
+PARAMETER particleFile1                     STRING       "particles1.h5"
+PARAMETER particleFile2                     STRING       "particles2.h5"
+
+PARTICLETYPE active INITMETHOD custom MAPMETHOD weighted ADVMETHOD leapfrog
+
+REQUIRES Particles/ParticlesForces/longRange/gravity/ParticleMesh
+REQUIRES Particles/ParticlesMain/active/massive/Leapfrog
+REQUIRES Particles/ParticlesMapping/meshWeighting/MapToMesh
+REQUIRES Particles/ParticlesMapping/meshWeighting/CIC
+REQUESTS physics/Gravity/GravityMain/Poisson/Multigrid
+REQUIRES IO/IOParticles
+
+PARTICLEPROP halo REAL

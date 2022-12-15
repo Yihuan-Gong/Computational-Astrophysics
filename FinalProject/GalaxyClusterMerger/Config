@@ -1,0 +1,131 @@
+# Configuration file for GalaxyClusterMerger problem.
+
+DEFAULT SelfGravity
+CONFLICTS SelfGravity RigidGravity
+
+REQUIRES Driver/DriverMain
+REQUIRES Grid
+REQUIRES Grid/GridBoundaryConditions/OneRow
+REQUIRES physics/Gravity
+REQUIRES IO
+REQUIRES flashUtilities/interpolation/oneDim
+
+USESETUPVARS dmOnly
+
+IF dmOnly == True
+
+ELSE
+
+REQUIRES physics/Hydro/HydroMain/unsplit/MHD_StaggeredMesh
+REQUIRES physics/Eos
+
+ENDIF
+
+PARAMETER profile1			    			STRING	 	"profile1.h5"
+PARAMETER profile2			    			STRING 	 	"profile2.h5"
+PARAMETER magFile			    				STRING	 	"magnetic_field.h5"
+PARAMETER vxInit1			    				REAL	      0.0
+PARAMETER vxInit2                      REAL        0.0
+PARAMETER vyInit1                      REAL        0.0
+PARAMETER vyInit2                      REAL        0.0
+PARAMETER isGas1				    			BOOLEAN  	TRUE
+PARAMETER isGas2				    			BOOLEAN  	TRUE
+PARAMETER testSingleCluster     	    	BOOLEAN 	 	FALSE
+PARAMETER nsubzones                  	INTEGER   	3
+PARAMETER mainClusterFixed		BOOLEAN	   	FALSE
+PARAMETER RefinementDensityCutoff      	REAL	        1.0E-29
+PARAMETER xInit1		      	REAL	   	0.0
+PARAMETER yInit1                       	REAL        	0.0
+PARAMETER xInit2                       	REAL        	0.0
+PARAMETER yInit2                       	REAL        	0.0
+PARAMETER RefiningRadius1    		REAL		200.0
+PARAMETER RefiningRadius2              	REAL  	      	200.0
+PARAMETER setupSubclusterWithRestart   	BOOLEAN     	FALSE
+PARAMETER Ldamp				REAL	      	300.0
+PARAMETER Rdamp				REAL	      	500.0
+PARAMETER refineOnSpheres		BOOLEAN   	FALSE
+PARAMETER readMetals			BOOLEAN	   	FALSE
+PARAMETER readVelocity			BOOLEAN  	FALSE
+PARAMETER perturbDensity	      	BOOLEAN  	FALSE
+PARAMETER densPerturbScale       	REAL  	 	0.01
+PARAMETER insertBubbles			BOOLEAN		FALSE
+PARAMETER insertBubblesOnRestart        BOOLEAN         FALSE
+PARAMETER numBubbles						INTEGER		2
+PARAMETER bubbleHeight						REAL			30.0
+PARAMETER bubbleRadius						REAL			30.0
+PARAMETER bubbleEntropy					REAL			10000.0
+PARAMETER bubbleAxis							INTEGER		3
+PARAMETER bubbleEnergy			REAL		1.0e60
+PARAMETER bubbleMethod			INTEGER		1
+PARAMETER bubbleStart			REAL		0.0
+PARAMETER bubbleDuration		REAL 		100.0
+PARAMETER bubbleXC                      REAL            0.0
+PARAMETER bubbleYC                      REAL            0.0
+PARAMETER bubbleZC                      REAL            0.0
+PARAMETER useBubbleParticles		BOOLEAN		FALSE
+PARAMETER numBubbleParticles		INTEGER		500000
+PARAMETER turbVelocity		      	   BOOLEAN  	FALSE
+PARAMETER useJets							BOOLEAN			FALSE
+PARAMETER jetAxis							INTEGER     1
+PARAMETER jetVelocity					REAL				10000.
+PARAMETER jetDensity					REAL        1.0e-26
+PARAMETER jetStart			REAL		0.0
+PARAMETER jetDuration		REAL 		100.0
+PARAMETER jetRadius		REAL		3.0
+PARAMETER jetMach		REAL		0.9
+PARAMETER jetHeight		REAL		3.0
+PARAMETER jetAngle		REAL		0.0
+PARAMETER jetPeriod		REAL		10.0
+PARAMETER rescaleMagEnergy	REAL		1.0
+PARAMETER rClr1			REAL		0.0
+PARAMETER rClr2                 REAL            0.0
+
+MASS_SCALAR metl
+MASS_SCALAR clr1
+MASS_SCALAR clr2
+MASS_SCALAR bubb
+
+VARIABLE gpot
+VARIABLE gpol
+
+PPDEFINE FLASH_GRAVITY_TIMEDEP
+
+IF dmOnly == True
+
+ELSE
+
+PARTICLETYPE passive INITMETHOD with_density MAPMETHOD weighted ADVMETHOD rungekutta
+
+REQUIRES Particles/ParticlesMain/passive
+REQUIRES Grid/GridParticles
+REQUIRES IO/IOParticles
+REQUESTS Particles/ParticlesMapping/meshWeighting/CIC
+
+PARTICLEPROP dens	REAL
+PARTICLEPROP temp	REAL
+PARTICLEPROP clr1	REAL
+PARTICLEPROP clr2	REAL
+PARTICLEPROP metl	REAL
+PARTICLEPROP magx       REAL
+PARTICLEPROP magy       REAL
+PARTICLEPROP magz       REAL
+
+PARTICLEMAP TO dens  FROM VARIABLE	dens
+PARTICLEMAP TO temp  FROM VARIABLE     	temp
+PARTICLEMAP TO clr1  FROM MASS_SCALAR  	clr1
+PARTICLEMAP TO clr2  FROM MASS_SCALAR  	clr2
+PARTICLEMAP TO metl  FROM MASS_SCALAR	metl
+PARTICLEMAP TO magx  FROM VARIABLE   	magx
+PARTICLEMAP TO magy  FROM VARIABLE      magy
+PARTICLEMAP TO magz  FROM VARIABLE      magz
+
+PARAMETER particle_attribute_1 STRING "dens"
+PARAMETER particle_attribute_2 STRING "temp"
+PARAMETER particle_attribute_3 STRING "clr1"
+PARAMETER particle_attribute_4 STRING "clr2"
+PARAMETER particle_attribute_5 STRING "metl"
+PARAMETER particle_attribute_6 STRING "magx"
+PARAMETER particle_attribute_7 STRING "magy"
+PARAMETER particle_attribute_8 STRING "magz"
+
+ENDIF
