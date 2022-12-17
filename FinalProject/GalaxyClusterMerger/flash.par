@@ -40,7 +40,7 @@ mainClusterFixed	       = .true.
 
 # Cluster 1 is gas-filled, cluster 2 is gasless
 isGas1                         = .true.
-isGas2			       = .false.
+isGas2			       = .true.            # Here I set cluster 2 to be gaseous
 
 # This is a sub-sampling parameter within a zone used in
 # Simulation_initBlock (shouldn't have to change)
@@ -59,10 +59,10 @@ Rdamp			       = 800.0
 
 basenm                         = "perseus_merger_"
 
-#restart  = .false.
-restart                        = .true.
+restart  = .false.
+#restart                        = .true.
 
-checkpointFileNumber	       = 4
+checkpointFileNumber	       = 0    # a new simulation, so it should star from 0
 plotFileNumber		       = 180
 
 checkpointFileIntervalTime     = 3.1557E19
@@ -78,9 +78,10 @@ plot_var_4                     = "gpot"
 plot_var_5                     = "velx"
 plot_var_6                     = "vely"
 plot_var_7                     = "velz"
-plot_var_8                     = "magx"
-plot_var_9                     = "magy"
-plot_var_10                    = "magz"
+#plot_var_8                     = "pden"  #Dark matter density (?)
+#plot_var_8                     = "magx"
+#plot_var_9                     = "magy"
+#plot_var_10                    = "magz"
 
 run_comment                    = "Perseus Merger"
 log_file                       = "perseus_merger.log"
@@ -190,7 +191,8 @@ use_steepening  = .true. # Contact steepening for PPM
 E_modification  = .true.            # High order algorithm for E-field construction
 E_upwind = .true.
 energyFix       = .true.           # Update magnetic energy using staggered B-fields
-ForceHydroLimit = .false.           # Pure Hydro Limit (B=0)
+#ForceHydroLimit = .false.           # Pure Hydro Limit (B=0)
+ForceHydroLimit = .true.
 prolMethod      = "balsara_prol"    # Prolongation method (injecton_prol, balsara_prol)
 
 #       III. RIEMANN SOLVERS:

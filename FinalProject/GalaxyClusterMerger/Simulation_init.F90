@@ -76,7 +76,8 @@ subroutine Simulation_init()
   call RuntimeParameters_get("mainClusterFixed", sim_mainClusterFixed)
   call RuntimeParameters_get("nsubzones", sim_subZones)
   call RuntimeParameters_get("isGas1", sim_isGas1)
-  call RuntimeParameters_get("isGas1", sim_isGas2)
+!   call RuntimeParameters_get("isGas1", sim_isGas2)  ! should this be call RuntimeParameters_get("isGas2", sim_isGas2)
+  call RuntimeParameters_get("isGas2", sim_isGas2)  
 #ifdef MASS_PART_PROP
   call RuntimeParameters_get("particleFile1", sim_particleFile1)
   call RuntimeParameters_get("particleFile2", sim_particleFile2)
@@ -241,7 +242,7 @@ subroutine Simulation_init()
   allocate(vtan1(numPoints1))
 
   if (sim_meshMe == 0) then
-     call read_profile(sim_profile1, r_string, r1)
+     call read_profile(sim_profile1, r_string, r1)  ! Radius (see InitialCond.ipynb)
 #ifdef PDEN_VAR
      call read_profile(sim_profile1, pden_string, pden1)
 #endif
@@ -299,10 +300,10 @@ subroutine Simulation_init()
 
        call read_profile(sim_profile2, r_string, r2)
 #ifdef PDEN_VAR
-       call read_profile(sim_profile2, pden_string, pden2)
+       call read_profile(sim_profile2, pden_string, pden2)  ! Read DM density for cluster 2
 #endif
        if (sim_isGas2) then
-          call read_profile(sim_profile2, dens_string, dens2)
+          call read_profile(sim_profile2, dens_string, dens2)  ! Read gas density for cluster 2
           call read_profile(sim_profile2, pres_string, pres2)
           if (sim_readMetals) then
               call read_profile(sim_profile2, metl_string, metl2)
@@ -378,6 +379,7 @@ subroutine Simulation_init()
 
 #ifdef MAGX_VAR     
 
+      ! Read the magnetic_file.h5 if sim_forceHydroLimit==False
      if (.not. sim_forceHydroLimit .or. sim_perturbDensity .or. sim_turbVelocity) then
 
         call open_mag_file(sim_magFile, sim_nx, sim_ny, sim_nz, &

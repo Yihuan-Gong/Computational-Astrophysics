@@ -147,6 +147,16 @@ subroutine Simulation_initBlock(blockId)
   dx = del(1)
   dy = del(2)
   dz = del(3)
+  
+  
+  ! !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+  !                                                                    !
+  !   Expand initial conditions (e.g. density, temperature)            !
+  !   written as f(r) into f(x,y,z) by the initial core position       !
+  !   of cluster1 (sim_Xctr(1), ...) and cluster2 (sim_Xctr(2), ...)   !
+  !                                                                    !
+  ! !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
 
   do k = blkLimitsGC(LOW,KAXIS), blkLimitsGC(HIGH,KAXIS)
 
@@ -185,7 +195,7 @@ subroutine Simulation_initBlock(blockId)
                     xx = xl(i) + (real(ii) - 0.5)*dxx
                     xh(:) = xx - sim_xCtr(:)
           
-                    dh(:) = sqrt(xh(:)**2 + yh(:)**2 + zh(:)**2)
+                    dh(:) = sqrt(xh(:)**2 + yh(:)**2 + zh(:)**2)  ! The distance from cluster center
            
                     pres_sample1 = 0.
                     pres_sample2 = 0.
@@ -197,9 +207,11 @@ subroutine Simulation_initBlock(blockId)
                     pden_sample2 = 0.
 		                vtan_sample1 = 0.
 
-                    rr = dh(1)
+                    rr = dh(1)  ! The distance from cluster center
 
 #ifdef PDEN_VAR
+                    ! Interplotate pden1 (dark matter density of 1) with r1 (radius list) 
+                    ! and rr (distance from the cluster core at current position(x,y,z))
                     pden_sample1 = interpolate(pden1, numPoints1, r1, rr)
 #endif
 
