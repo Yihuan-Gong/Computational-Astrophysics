@@ -82,7 +82,7 @@ subroutine Simulation_initBlock(blockId)
   logical, save :: gcell = .true.
 
   real, external :: vecPot, scalarPot
-  real, pointer, dimension(:,:,:,:) :: facexData, faceyData, facezData
+  real, pointer, dimension(:,:,:,:) :: solnData, facexData, faceyData, facezData
 
 !===============================================================================
 
@@ -93,6 +93,7 @@ subroutine Simulation_initBlock(blockId)
   call Grid_getBlkRefineLevel(blockID,blockRefineLevel)
   call Grid_getBlkIndexLimits(blockID,blkLimits,blkLimitsGC)
   call Grid_getDeltas(blockID,del)
+  call Grid_getBlkPtr(blockID,solnData,CENTER)
   
   size(1) = blkLimitsGC(HIGH,IAXIS) - blkLimitsGC(LOW,IAXIS) + 1
   size(2) = blkLimitsGC(HIGH,JAXIS) - blkLimitsGC(LOW,JAXIS) + 1
@@ -241,6 +242,13 @@ subroutine Simulation_initBlock(blockId)
                           dens_sample2 = interpolate(dens2, numPoints2, r2, rr)
                           pres_sample2 = interpolate(pres2, numPoints2, r2, rr)
                           metl_sample2 = interpolate(metl2, numPoints2, r2, rr)
+
+                          ! Put gas mass tracer at cluster 2
+                          if ( rr < 1*Mpc ) then
+                            solnData(SUB2_MSCALAR, i, j, k) = 1.0
+                          else
+                            solnData(SUB2_MSCALAR, i, j, k) = 0.0
+                          end if
                           
                        endif
                                               

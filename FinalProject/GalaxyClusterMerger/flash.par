@@ -78,6 +78,7 @@ plot_var_4                     = "gpot"
 plot_var_5                     = "velx"
 plot_var_6                     = "vely"
 plot_var_7                     = "velz"
+plot_var_8                     = "sub2"
 #plot_var_8                     = "pden"  #Dark matter density (?)
 #plot_var_8                     = "magx"
 #plot_var_9                     = "magy"
@@ -105,12 +106,12 @@ ymin                           = -1.23424e+25
 zmax                           = 1.23424e+25
 zmin                           = -1.23424e+25
 
-xl_boundary_type               = "diode"
-xr_boundary_type               = "diode"
-yl_boundary_type               = "diode"
-yr_boundary_type               = "diode"
-zl_boundary_type               = "diode"
-zr_boundary_type               = "diode"
+xl_boundary_type               = "outflow"
+xr_boundary_type               = "outflow"
+yl_boundary_type               = "outflow"
+yr_boundary_type               = "outflow"
+zl_boundary_type               = "outflow"
+zr_boundary_type               = "outflow"
 
 nblockx                        = 8
 nblocky                        = 8
@@ -129,7 +130,8 @@ refine_var_4		       = "none"
 # at all times in addition to 2nd-deriv refinement
 refineOnSpheres = .true.
 RefiningRadius1 = 150.0
-RefiningRadius2 = 0.0
+#RefiningRadius1 = 10.0
+RefiningRadius2 = 150.0
 refineOnMass = .false.
 
 # Hydrodynamics
